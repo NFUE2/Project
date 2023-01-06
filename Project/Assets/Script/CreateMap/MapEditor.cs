@@ -83,39 +83,30 @@ public class MapEditor : EditorWindow
         GameObject Obj = Instantiate((GameObject)Tilelist[choice]);
 
         Obj.transform.SetParent(GameObject.Find("CloseNode").transform);
-        Obj.transform.rotation = Quaternion.AngleAxis(30.0f, Vector3.up);
         Obj.transform.position = Pos;
 
         OpenNode.Remove(Pos);
         CloseNode.Add(Pos);
-        Search(Pos);
+
+        Search(Pos + new Vector3(0f, 0f, 5f));
+        Search(Pos + new Vector3(0f, 0f, -5f));
+        Search(Pos + new Vector3(4.3f, 0f, 2.5f));
+        Search(Pos + new Vector3(4.3f, 0f, -2.5f));
+        Search(Pos + new Vector3(-4.3f, 0f, 2.5f));
+        Search(Pos + new Vector3(-4.3f, 0f, -2.5f));
+
     }
 
     public void Search(Vector3 Pos)
     {
-        for (int i = 0; i < 6; i++)
+        if (!OpenNode.Contains(Pos) && !CloseNode.Contains(Pos))
         {
-            float angle = ((i * 60f) + 30f) * Mathf.Deg2Rad;
-            Vector3 Preview = new Vector3(Mathf.Sin(angle), 0f, Mathf.Cos(angle)) * (2.5f * 2) + Pos;
+            OpenNode.Add(Pos);
 
-            if(Physics.OverlapSphere(Preview,0.5f).Length == 0)
-            {
-                OpenNode.Add(Preview);
-
-                GameObject Obj = Instantiate(Base);
-                Obj.transform.SetParent(GameObject.Find("OpenNode").transform);
-                Obj.name = "Point";
-                Obj.transform.position = Preview;
-            }
-            //if (!OpenNode.Contains(Preview) && !CloseNode.Contains(Preview))
-            //{
-            //    OpenNode.Add(Preview);
-
-            //    GameObject Obj = Instantiate(Base);
-            //    Obj.transform.SetParent(GameObject.Find("OpenNode").transform);
-            //    Obj.name = "Point";
-            //    Obj.transform.position = Preview;
-            //}
+            GameObject Obj = Instantiate(Base);
+            Obj.transform.SetParent(GameObject.Find("OpenNode").transform);
+            Obj.name = "Point";
+            Obj.transform.position = Pos;
         }
     }
 }

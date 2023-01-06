@@ -34,7 +34,7 @@ public class ViewTile : MonoBehaviour
     {
         for (int i = 0; i < 6; i++)
         {
-            float n = ((60 * i)) * Mathf.Deg2Rad;
+            float n = ((60 * i) + 30f) * Mathf.Deg2Rad;
             Pos[i] = new Vector3(Mathf.Sin(n), 0f, Mathf.Cos(n)) * size + transform.position;
         }
         for (int i = 0; i < 5; i++)
