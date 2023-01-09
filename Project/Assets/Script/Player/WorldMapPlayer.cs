@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node
-{
-    public Node(Vector3 Pos1, Vector3 Pos2) { PrevNode = Pos1; CurNode = Pos2; }
-    public Vector3 PrevNode, CurNode;
-}
-
-
 public class WorldMapPlayer : MonoBehaviour
 {
     #region Variable
@@ -40,6 +33,7 @@ public class WorldMapPlayer : MonoBehaviour
 
     private void Update()
     {
+        
         if(Input.GetMouseButtonUp(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -52,14 +46,14 @@ public class WorldMapPlayer : MonoBehaviour
 
     public void Search(Vector3 Pos)
     {
-        //Route.Clear();
+        Route.Clear();
         //Vector3 Cur_Pos = transform.position - new Vector3(0f, -1f, 0f);
 
         //List<Node> OpenNode = new List<Node>();
         //List<Vector3> CloseNode = new List<Vector3>();
 
         //Node Cur_Node = new Node(Cur_Pos, Cur_Pos);
-        
+
         //OpenNode.Add(Cur_Node);
 
         //while(OpenNode.Count > 0)
