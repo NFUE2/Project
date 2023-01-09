@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
     #region Variable
     string[] Scenelist = { "Mainmenu", "World", "Ingame", "Loading" };
     string prev_scene;
+
     public GameObject ExitButton;
     public GameObject ChangeButton;
     public Image LoadingBar;
+
+    public List<Vector3> NodeList;
+
     #endregion Variable
 
     private static GameManager instance;
@@ -28,25 +32,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (SceneManager.GetActiveScene().name != Scenelist[3])
-        {
-            ChangeButton = GameObject.Find("SceneChangeButton");
-            ChangeButton.GetComponent<Button>().onClick.AddListener(ChangeScene);
-        }
-        else
-        {
-            StartCoroutine(LoadScene());
-        }
     }
 
     private void Update()
     {
+        //esc누를때의 작동
         if (SceneManager.GetActiveScene().name == Scenelist[0] && Input.GetKeyDown(KeyCode.Escape) && !ExitButton.activeSelf)
         {
             ChangeButton.SetActive(false);
@@ -59,7 +51,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool NodeCheck(Vector3 Pos) {  return NodeList.Contains(Pos); }
+
     #region SceneControl
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name != Scenelist[3])
+        {
+            if (SceneManager.GetActiveScene().name == Scenelist[1] && GameObject.Find("CloseNode").activeSelf)
+                for (int i = 0; i < GameObject.Find("CloseNode").transform.childCount; i++)
+                    NodeList.Add(GameObject.Find("CloseNode").transform.GetChild(i).position);
+
+            if(GameObject.Find("SceneChangeButton") != null)
+            {
+                ChangeButton = GameObject.Find("SceneChangeButton");
+                ChangeButton.GetComponent<Button>().onClick.AddListener(ChangeScene);
+
+                if (SceneManager.GetActiveScene().name != Scenelist[0])
+                    ChangeButton.SetActive(false);
+            }
+        }
+        else
+            StartCoroutine(LoadScene());
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    //씬을 변경하는 함수
     public void ChangeScene()
     {
         if(SceneManager.GetActiveScene().name == Scenelist[0])
@@ -78,6 +105,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //로딩씬 작동
     IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(1.0f);
@@ -109,6 +137,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion SceneControl
 
+    //게임종료
     public void Exit()
     {
 #if UNITY_EDITOR
