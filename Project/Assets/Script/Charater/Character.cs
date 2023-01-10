@@ -38,8 +38,7 @@ public abstract class Character : MonoBehaviour
 
         if(delay > data.delaytime)
         {
-
-
+            Debug.Log("공격");
             delay = 0.0f;
         }
     }
@@ -48,5 +47,4 @@ public abstract class Character : MonoBehaviour
     {
 
     }
-
 }

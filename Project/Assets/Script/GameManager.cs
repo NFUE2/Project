@@ -18,22 +18,13 @@ public class GameManager : MonoBehaviour
 
     #endregion Variable
 
-    private static GameManager instance;
-    public static GameManager GetInstance()
-    {
-        if (instance = null)
-            instance = new GameManager();
-
-        return instance;
-    }
+    private static GameManager instance = null;
+    public static GameManager GetInstance { get { return instance; } } 
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    private void Start()
-    {
+        instance = this;
     }
 
     private void Update()
@@ -64,7 +55,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != Scenelist[3])
         {
-            if (SceneManager.GetActiveScene().name == Scenelist[1] && GameObject.Find("CloseNode").activeSelf)
+            if (SceneManager.GetActiveScene().name == Scenelist[1] && GameObject.Find("CloseNode").activeSelf && NodeList.Count == 0)
                 for (int i = 0; i < GameObject.Find("CloseNode").transform.childCount; i++)
                     NodeList.Add(GameObject.Find("CloseNode").transform.GetChild(i).position);
 

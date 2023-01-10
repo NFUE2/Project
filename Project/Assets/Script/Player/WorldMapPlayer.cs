@@ -7,6 +7,9 @@ public class WorldMapPlayer : MonoBehaviour
     #region Variable
     public List<Vector3> Route;
 
+    List<Vector3> OpenNode = new List<Vector3>();
+    List<Vector3> CloseNode = new List<Vector3>();
+
     Vector3[] Nodelist =
     {
         new Vector3(0.0f, 0.0f, 5.0f),
@@ -47,34 +50,42 @@ public class WorldMapPlayer : MonoBehaviour
     public void Search(Vector3 Pos)
     {
         Route.Clear();
-        //Vector3 Cur_Pos = transform.position - new Vector3(0f, -1f, 0f);
+        List<Vector3> OpenNode = new List<Vector3>();
+        List<Vector3> CloseNode = new List<Vector3>();
+        Dictionary<Vector3, Vector3> Node = new Dictionary<Vector3, Vector3>();
 
-        //List<Node> OpenNode = new List<Node>();
-        //List<Vector3> CloseNode = new List<Vector3>();
+        OpenNode.Add(transform.position);
 
-        //Node Cur_Node = new Node(Cur_Pos, Cur_Pos);
+        while (OpenNode.Count > 0)
+        {
+            Vector3 CurPos = OpenNode[0];
 
-        //OpenNode.Add(Cur_Node);
+            OpenNode.Remove(CurPos);
+            CloseNode.Add(CurPos);
 
-        //while(OpenNode.Count > 0)
-        //{
-        //    OpenNode.Remove(Cur_Node);
-        //    CloseNode.Add(Cur_Pos);
 
-        //    if(Cur_Pos == Pos)
-        //    {
-        //        Cur_Node.
-        //        break;
-        //    }
+            for (int i = 0; i < 6; i++)
+            {
+                if (GameManager.GetInstance.NodeCheck(CurPos + Nodelist[i]) && !CloseNode.Contains(CurPos + Nodelist[i]) && !OpenNode.Contains(CurPos + Nodelist[i]))
+                {
+                    Node.Add(CurPos + Nodelist[i], CurPos);
+                    OpenNode.Add(CurPos + Nodelist[i]);
+                }
+            }
 
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        if(GameManager.GetInstance().NodeCheck(Cur_Pos + Nodelist[i]) && !CloseNode.Contains(Cur_Pos + Nodelist[i]))
-        //        {
-        //            Cur_Node = new Node(Cur_Pos, Cur_Pos + Nodelist[i]);
-        //        }
-        //    }
-        //}
+            if (OpenNode.Contains(Pos))
+            {
+                CurPos = Pos;
+                while (CurPos != transform.position)
+                {
+                    Route.Add(CurPos);
+                    CurPos = Node[CurPos];
+                }
+                Route.Add(transform.position);
+                Route.Reverse();
+                break;
+            }
+        }
     }
 
     private void OnDrawGizmos()
