@@ -74,14 +74,15 @@ public class MapEditor : EditorWindow
                 Thumnail[i] = AssetPreview.GetAssetPreview(Tilelist[i]);
 
             choice = GUILayout.SelectionGrid(choice,Thumnail,4,GUILayout.MaxHeight(100f),GUILayout.MaxWidth(500f));
-            SelectTile = (GameObject)Tilelist[choice];
-            Debug.Log(SelectTile.name);
+            //Debug.Log(choice);
+            Debug.Log(Tilelist[choice].name);
+            //SelectTile = (GameObject)Tilelist[choice];
+            //Debug.Log(SelectTile.name);
         }
     }
 
     public void Create(Vector3 Pos)
     {
-        Debug.Log("선택" + choice);
         GameObject Obj = Instantiate((GameObject)Tilelist[choice]);
         //GameObject Obj = Instantiate(SelectTile);
 
