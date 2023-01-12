@@ -75,15 +75,20 @@ public class MapEditor : EditorWindow
 
             choice = GUILayout.SelectionGrid(choice,Thumnail,4,GUILayout.MaxHeight(100f),GUILayout.MaxWidth(500f));
             SelectTile = (GameObject)Tilelist[choice];
+            Debug.Log(SelectTile.name);
         }
     }
 
     public void Create(Vector3 Pos)
     {
+        Debug.Log("선택" + choice);
         GameObject Obj = Instantiate((GameObject)Tilelist[choice]);
+        //GameObject Obj = Instantiate(SelectTile);
+
 
         Obj.transform.SetParent(GameObject.Find("CloseNode").transform);
         Obj.transform.position = Pos;
+        Obj.layer = LayerMask.NameToLayer("Ground");
 
         OpenNode.Remove(Pos);
         CloseNode.Add(Pos);

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public Image LoadingBar;
 
     public List<Vector3> NodeList;
-
+    public  List<GameObject> Unit;
     #endregion Variable
 
     private static GameManager instance = null;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
         instance = this;
+        Unit = new List<GameObject>();
     }
 
     private void Update()
@@ -42,7 +43,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool NodeCheck(Vector3 Pos) {  return NodeList.Contains(Pos); }
+    public bool NodeCheck(Vector3 Pos) { return NodeList.Contains(Pos); }
+    public GameObject GetUnit { set { Unit.Add(value); } }
 
     #region SceneControl
 
@@ -59,7 +61,15 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < GameObject.Find("CloseNode").transform.childCount; i++)
                     NodeList.Add(GameObject.Find("CloseNode").transform.GetChild(i).position);
 
-            if(GameObject.Find("SceneChangeButton") != null)
+            if(Unit.Count == 0 && SceneManager.GetActiveScene().name == Scenelist[1])
+            {
+                GameObject.Find("Player").SetActive(false);
+                GameObject.Find("Choice").SetActive(true);
+            }
+            else if(Unit.Count > 0 && SceneManager.GetActiveScene().name == Scenelist[1])
+                GameObject.Find("Choice").SetActive(false);
+
+            if (GameObject.Find("SceneChangeButton") != null)
             {
                 ChangeButton = GameObject.Find("SceneChangeButton");
                 ChangeButton.GetComponent<Button>().onClick.AddListener(ChangeScene);
@@ -137,5 +147,4 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 #endif
     }
-
 }

@@ -723,6 +723,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExitButton: {fileID: 993528054}
   ChangeButton: {fileID: 0}
+  LoadingBar: {fileID: 0}
+  NodeList: []
+  Unit: []
 --- !u!1 &1281930450
 GameObject:
   m_ObjectHideFlags: 0

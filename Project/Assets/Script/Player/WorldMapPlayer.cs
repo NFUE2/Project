@@ -63,7 +63,6 @@ public class WorldMapPlayer : MonoBehaviour
             OpenNode.Remove(CurPos);
             CloseNode.Add(CurPos);
 
-
             for (int i = 0; i < 6; i++)
             {
                 if (GameManager.GetInstance.NodeCheck(CurPos + Nodelist[i]) && !CloseNode.Contains(CurPos + Nodelist[i]) && !OpenNode.Contains(CurPos + Nodelist[i]))
@@ -90,7 +89,8 @@ public class WorldMapPlayer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         for (int i = 0; i < Route.Count - 1; i++)
-           Gizmos.DrawLine(Route[i], Route[i + 1]);
+            Gizmos.DrawLine(Route[i] + new Vector3(0, 1.0f, 0), Route[i + 1] + new Vector3(0, 1.0f, 0));
     }
 }
