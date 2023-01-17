@@ -40,9 +40,12 @@ public class InGameCamera : MonoBehaviour
                 {
                     if (Hit.collider.gameObject.layer == 9)
                     {
+                        StageManager.GetInstance.SetUnit(Pick_Target, Tile.transform.position);
                         Pick_Target.transform.position = Tile.transform.position;
                         Pick_up = false;
                     }
+                    else
+                        Pick_Target.transform.position = StageManager.GetInstance.UnitPos(Pick_Target);
                 }
             }
         }
