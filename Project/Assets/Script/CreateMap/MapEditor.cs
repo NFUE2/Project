@@ -74,18 +74,12 @@ public class MapEditor : EditorWindow
                 Thumnail[i] = AssetPreview.GetAssetPreview(Tilelist[i]);
 
             choice = GUILayout.SelectionGrid(choice,Thumnail,4,GUILayout.MaxHeight(100f),GUILayout.MaxWidth(500f));
-            //Debug.Log(choice);
-            Debug.Log(Tilelist[choice].name);
-            //SelectTile = (GameObject)Tilelist[choice];
-            //Debug.Log(SelectTile.name);
         }
     }
 
     public void Create(Vector3 Pos)
     {
         GameObject Obj = Instantiate((GameObject)Tilelist[choice]);
-        //GameObject Obj = Instantiate(SelectTile);
-
 
         Obj.transform.SetParent(GameObject.Find("CloseNode").transform);
         Obj.transform.position = Pos;

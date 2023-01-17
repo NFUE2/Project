@@ -14,6 +14,7 @@ public class Viking : Character
 
         data.delay_time = 3.0f;
         data.damage = 3.0f;
+        data.range = 1.0f;
 
         data.skill_name = "강타";
         data.skill_info = "적에게 큰 피해를 줍니다.";
